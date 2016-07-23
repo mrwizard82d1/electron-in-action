@@ -1,0 +1,18 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body, input {
+  /*
+   * This attribute is specific to Chrome. It allows us to use the system font (San Francisco) on Mac OS X El Capitan 10.11
+   * and later.
+   *
+   * Because electron ships with Chromium, we can use **anything** supported by Chromium including this feature.
+   *
+   */
+  font: menu
+}
