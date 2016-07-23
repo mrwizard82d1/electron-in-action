@@ -7,5 +7,15 @@
   </head>
   <body>
     <h1>Hello from Electron!</h1>
+    <!-- Our new button! -->
+    <p> 
+      <button class="alert">Current Directory</button>
+    </p>
   </body>
+  <script>
+    const button = document.querySelector('.alert');
+    button.addEventListener('click', function() {
+      alert(__dirname);
+    });
+  </script>
 </html>
