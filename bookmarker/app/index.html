@@ -12,10 +12,8 @@
       <button class="alert">Current Directory</button>
     </p>
   </body>
+  <!-- Require `app/renderer.js` using Node module system (`require`). -->
   <script>
-    const button = document.querySelector('.alert');
-    button.addEventListener('click', function() {
-      alert(__dirname);
-    });
+    require('./renderer');
   </script>
 </html>
