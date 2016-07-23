@@ -1,0 +1,19 @@
+{
+  "name": "bookmarker",
+  "version": "0.0.1",
+  "description": "Our very first Electron application.",
+  "main": "./app/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrwizard82d1/electron-in-action.git"
+  },
+  "author": "Larry Jones (via Steve Kinney)",
+  "license": "SEE LICENSE IN ../LICENSE",
+  "bugs": {
+    "url": "https://github.com/mrwizard82d1/electron-in-action/issues"
+  },
+  "homepage": "https://github.com/mrwizard82d1/electron-in-action#readme"
+}
