@@ -9,4 +9,8 @@ mainWindow = null;
 app.on('ready', () => {
 	console.log('Hello from Electron.');
 	mainWindow = new BrowserWindow();
+	// The following line uses the "template string" feature from ECMAScript 6. From Stack Overflow 
+	// (http://stackoverflow.com/questions/27678052/what-is-the-usage-of-the-backtick-symbol-in-javascript), 
+	// "Template strings can be multi line and may use 'interpolation' to insert the contents of variables..."
+	mainWindow.webContents.loadURL(`file://${__dirname}/index.html`);
 });
