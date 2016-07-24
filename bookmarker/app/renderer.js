@@ -3,7 +3,7 @@ const parser = new DOMParser();
 
 // And cache some DOM elements.
 const linkSection = document.querySelector('.links');
-const errorMessag = document.querySelector('.error-message');
+const errorMessage = document.querySelector('.error-message');
 const newLinkForm = document.querySelector('.new-link-form');
 const newLinkUrl = document.querySelector('.new-link-url');
 const newLinkSubmit = document.querySelector('.new-link-submit');
@@ -58,18 +58,35 @@ function renderLinks() {
   linkSection.innerHTML = linkElements;
 }
 
+// Reports HTML errors to the user.
+function handleError(error, url) {
+  errorMessage.innerHTML = `There was an issue adding "${url}": ${error.message}`;
+  setTimeout(() => errorMessage.innerText = null, 5000);
+}
+
+// Handles errors returned by servers.
+function validateResponse(response) {
+  if (response.ok) {
+    return response;
+  }
+
+  throw new Error(`Status code of ${response.status} ${response.statusText}`);
+}
+
 // We handle the form submission ourselves. (This is an electron application, after all. :) )
 newLinkForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
   const url = newLinkUrl.value;
   fetch(url)
+    .then(validateResponse)
     .then(response => response.text())
     .then(parseResponse)
     .then(findTitle)
     .then(title => storeLink(title, url))
     .then(clearForm)
-    .then(renderLinks);
+    .then(renderLinks)
+    .catch(error => handleError(error, url));
 });
 
 // wire up the clearstorage button.
