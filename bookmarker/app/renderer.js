@@ -1,8 +1,11 @@
+// Access electron services.
+const {shell} = require('electron');
+
 // Instantiate the parser once.
 const parser = new DOMParser();
 
 // And cache some DOM elements.
-const linkSection = document.querySelector('.links');
+const linksSection = document.querySelector('.links');
 const errorMessage = document.querySelector('.error-message');
 const newLinkForm = document.querySelector('.new-link-form');
 const newLinkUrl = document.querySelector('.new-link-url');
@@ -55,7 +58,7 @@ function convertToElement(link) {
 // A helper function to render all the links in the `linksSection` of the document.
 function renderLinks() {
   const linkElements = getLinks().map(convertToElement).join('');
-  linkSection.innerHTML = linkElements;
+  linksSection.innerHTML = linkElements;
 }
 
 // Reports HTML errors to the user.
@@ -92,7 +95,15 @@ newLinkForm.addEventListener('submit', (event) => {
 // wire up the clearstorage button.
 clearStorageButton.addEventListener('click', function clearStorage() {
   localStorage.clear();
-  linkSection.innerHTML = '';
+  linksSection.innerHTML = '';
+});
+
+// Handle click events on links.
+linksSection.addEventListener('click', (event) => {
+  if (event.target.href) {
+    event.preventDefault();
+    shell.openExternal(event.target.href);
+  }
 });
 
 renderLinks();
