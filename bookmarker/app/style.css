@@ -1,0 +1,14 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body, input {
+  /*
+  This construct is unique to Chromium. It allows the use of the system font in the Web application.
+   */
+  font: menu;
+}
