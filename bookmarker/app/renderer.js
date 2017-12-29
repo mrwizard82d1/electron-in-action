@@ -1,9 +1,9 @@
-const linksSection = document.querySelector('.links');
-const errorMessage = document.querySelector('.error-message');
-const newLinkForm = document.querySelector('.new-link-form');
-const newLinkUrl = document.querySelector('.new-link-url');
-const newLinkSubmit = document.querySelector('.new-link-submit');
-const clearStorageButton = document.querySelector('.clear-storage');
+const _ = require('mori');
+
+const selectors = ['.links', '.error-message', '.new-link-form', '.new-link-url',
+                   '.new-link-submit', 'clear-storage'];
+const [linksSection, errorMessage, newLinkForm, newLinkUrl, newLinkSubmit, clearStorageButton] =
+  _.toJs(_.map(s => document.querySelector(s), selectors));
 
 newLinkUrl.addEventListener('keyup', () => {
   newLinkSubmit.disabled = !newLinkUrl.validity.valid;
