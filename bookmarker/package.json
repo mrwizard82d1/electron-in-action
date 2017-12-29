@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/mrwizard82d1/electron-in-action#readme",
   "devDependencies": {
+    "babel-preset-env": "^1.6.1",
     "electron": "^1.7.10"
   }
 }
