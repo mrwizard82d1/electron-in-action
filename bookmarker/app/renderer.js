@@ -34,12 +34,19 @@ function storeUrl(title, url) {
   }));
 }
 
-function dumpLocalStorage() {
-  for(var i = 0; i < localStorage.length; i++) {
-    const url = localStorage.key(i);
-    const title = JSON.parse(localStorage.getItem(url)).title;
-    appendMessage(`${url}: ${title}`);
-  }
+function getLinks() {
+  const result = _.map(k => _.pipeline(k,
+    Storage.prototype.getItem.bind(localStorage), JSON.parse), Object.keys(localStorage));
+  return result;
+}
+
+function convertToElement(link) {
+  return `<div class="link"><h3>${link.title}</h3><p><a href="${link.url}">${link.url}</a></p></div>`;
+}
+
+function renderLinks() {
+  let html = (_.intoArray(_.map(convertToElement, getLinks()))).join('');
+  linksSection.innerHTML = html;
 }
 
 function handleSubmit(event) {
@@ -52,9 +59,13 @@ function handleSubmit(event) {
     .then(text => {
       _.pipeline(text, parseResponse, findTitle, _.curry(storeUrl, newUrl));
       clearForm();
-      dumpLocalStorage();
+      renderLinks();
     })
     .catch(e => appendMessage(`Error, ${e}, fetching url, ${newUrl} )`));
 }
 
+// Render whatever links are currently stored in local storage.
+renderLinks();
+
+// Listen for the addition of new links.
 newLinkForm.addEventListener('submit', handleSubmit);
