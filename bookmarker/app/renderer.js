@@ -61,7 +61,7 @@ function handleSubmit(event) {
       clearForm();
       renderLinks();
     })
-    .catch(e => appendMessage(`Error, ${e}, fetching url, ${newUrl} )`));
+    .catch(e => temporarilyDisplayError(e, newUrl));
 }
 
 // Render whatever links are currently stored in local storage.
@@ -78,3 +78,11 @@ function clearStorage() {
 // Clear out old links when requested.
 clearStorageButton.addEventListener('click', clearStorage);
 
+function temporarilyDisplayError(error, url) {
+  // Display the error message
+  errorMessage.innerHTML = `Sorry. I could not add the URL, "${url}".<br/>` +
+                           'Would you mind checking it?<br/><br/>' +
+                           `The technical details are: ${error}.`;
+  // Erase the message after 10 seconds
+  setTimeout(() => errorMessage.innerHTML = '', 10000);
+}
