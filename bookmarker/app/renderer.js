@@ -1,7 +1,7 @@
 const _ = require('mori');
 
 const selectors = ['.links', '.error-message', '.new-link-form', '.new-link-url',
-                   '.new-link-submit', 'clear-storage'];
+                   '.new-link-submit', '.clear-storage'];
 const [linksSection, errorMessage, newLinkForm, newLinkUrl, newLinkSubmit, clearStorageButton] =
   _.toJs(_.map(s => document.querySelector(s), selectors));
 
@@ -69,3 +69,12 @@ renderLinks();
 
 // Listen for the addition of new links.
 newLinkForm.addEventListener('submit', handleSubmit);
+
+function clearStorage() {
+  localStorage.clear();
+  linksSection.innerHTML = '';
+}
+
+// Clear out old links when requested.
+clearStorageButton.addEventListener('click', clearStorage);
+
