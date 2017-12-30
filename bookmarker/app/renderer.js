@@ -16,10 +16,6 @@ const clearForm = () => {
   newLinkUrl.value = null;
 };
 
-function appendMessage(text) {
-  document.querySelector('#messages').value += `\n${text.toString()}`;
-}
-
 function parseResponse(text) {
   return parser.parseFromString(text, 'text/html');
 }
