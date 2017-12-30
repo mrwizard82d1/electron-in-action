@@ -1,0 +1,24 @@
+{
+  "name": "notes",
+  "version": "0.1.0",
+  "description": "An application for notes in Markdown.",
+  "main": "app/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrwizard82d1/electron-in-action.git"
+  },
+  "keywords": [],
+  "author": "Lawrence Allan Jones <mrwizard82d1@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "marked": "^0.3.9",
+    "mori": "^0.3.2"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "electron": "^1.7.10"
+  }
+}
