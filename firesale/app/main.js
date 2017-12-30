@@ -14,6 +14,9 @@ function whenAppReady() {
     mainWindow.show();
   })
   
+  // Open the developer tools programatically.
+  mainWindow.webContents.openDevTools();
+  
   // Allows `mainWindow` to be garbage collected.
   mainWindow.on('closed', () => { mainWindow = null; });
 }
