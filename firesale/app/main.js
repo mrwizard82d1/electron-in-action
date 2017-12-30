@@ -4,9 +4,15 @@ const { app, BrowserWindow } = require('electron');
 let mainWindow = null;
 
 function whenAppReady() {
-  mainWindow = new BrowserWindow();
+  // Hide browser window at first.
+  mainWindow = new BrowserWindow({ show: false });
   
   mainWindow.loadURL(`file://${__dirname}/index.html`);
+  
+  // Create one-time event to show the window once the DOM is ready-to-show.
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+  })
   
   // Allows `mainWindow` to be garbage collected.
   mainWindow.on('closed', () => { mainWindow = null; });
