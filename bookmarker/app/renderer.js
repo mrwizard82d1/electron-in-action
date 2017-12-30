@@ -1,4 +1,5 @@
 const _ = require('mori');
+const { shell } = require('electron');
 
 const selectors = ['.links', '.error-message', '.new-link-form', '.new-link-url',
                    '.new-link-submit', '.clear-storage'];
@@ -95,3 +96,13 @@ function temporarilyDisplayError(error, url) {
   // Erase the message after 10 seconds
   setTimeout(() => errorMessage.innerHTML = '', 10000);
 }
+
+// Open added links in external browser
+function openLinkInBrowser(event) {
+  if (event.target.href) {
+    event.preventDefault();
+    shell.openExternal(event.target.href);
+  }
+}
+
+linksSection.addEventListener('click', openLinkInBrowser);
