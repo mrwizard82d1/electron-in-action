@@ -6,7 +6,7 @@ let mainWindow = null;
 function whenAppReady() {
   mainWindow = new BrowserWindow();
   
-  mainWindow.loadURL(`file://$(__dirname)/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/index.html`);
   
   // Allows `mainWindow` to be garbage collected.
   mainWindow.on('closed', () => { mainWindow = null; });
