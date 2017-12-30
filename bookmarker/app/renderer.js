@@ -49,12 +49,21 @@ function renderLinks() {
   linksSection.innerHTML = html;
 }
 
+function validateResponse(response) {
+  if (response.ok) {
+    return response;
+  }
+  
+  throw new Error(`Unexpected status code of ${response.status}, ${response.statusText}.`);
+}
+
 function handleSubmit(event) {
   event.preventDefault();
   
   const newUrl = newLinkUrl.value;
   
   fetch(newUrl)
+    .then(validateResponse)
     .then(response => response.text())
     .then(text => {
       _.pipeline(text, parseResponse, findTitle, _.curry(storeUrl, newUrl));
