@@ -50,3 +50,8 @@ function whenAppReady() {
 }
 
 app.on('ready', whenAppReady);
+
+module.exports = {
+  getFileFromUser,
+  readFileContent,
+};
