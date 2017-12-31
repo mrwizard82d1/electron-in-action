@@ -1,18 +1,23 @@
 const { app, BrowserWindow, dialog } = require('electron');
 const fs = require('fs');
+const mori = require('mori');
+
+const readFileContent = pathname => {
+  return fs.readFileSync(pathname).toString();
+}
 
 const getFileFromUser = () => {
+  debugger;
   const files = dialog.showOpenDialog({ properties: ['openFile'] });
   
   if (!files) {
-    return;
+    return [];
   }
-  
-  const fileToOpen = files[0];
-  const fileContent = fs.readFileSync(fileToOpen).toString();
-  
-  console.log(fileContent);
+
+  return files[0];
 };
+
+const logSelectedFileContent = () => mori.pipeline(getFileFromUser(), readFileContent, console.log);
 
 // Define variable so it is not garbage collected after `app.on` returns.
 let mainWindow = null;
@@ -26,7 +31,9 @@ function whenAppReady() {
   // Create one-time event to show the window once the DOM is ready-to-show.
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
-    getFileFromUser();
+  
+    debugger;
+    logSelectedFileContent();
   })
   
   // Allows `mainWindow` to be garbage collected.
