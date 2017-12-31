@@ -1,4 +1,5 @@
 const { app, BrowserWindow, dialog } = require('electron');
+const fs = require('fs');
 
 const getFileFromUser = () => {
   const files = dialog.showOpenDialog({ properties: ['openFile'] });
@@ -7,7 +8,10 @@ const getFileFromUser = () => {
     return;
   }
   
-  console.log(files);
+  const fileToOpen = files[0];
+  const fileContent = fs.readFileSync(fileToOpen).toString();
+  
+  console.log(fileContent);
 };
 
 // Define variable so it is not garbage collected after `app.on` returns.
