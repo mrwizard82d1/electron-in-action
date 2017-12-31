@@ -1,7 +1,7 @@
-const { remote } = require('electron');
+const { remote, ipcRenderer } = require('electron');
 const marked = require('marked');
 const mori = require('mori');
-const { readSelectedFileContent } = remote.require('./main.js');
+const { importFile } = remote.require('./main.js');
 
 const selectors = ['#markdown', '#html', '#new-file', '#open-file', '#save-markdown', '#revert',
                    '#save-file', '#show-file', '#open-in-default'];
@@ -15,7 +15,9 @@ const renderMarkdownToHtml = (markdown) => {
 
 markdownView.addEventListener('keyup', event => renderMarkdownToHtml(event.target.value));
 
-openFileButton.addEventListener('click', () => {
-  const selectedFileContent = readSelectedFileContent();
-  console.log(selectedFileContent);
+openFileButton.addEventListener('click', () => importFile());
+
+ipcRenderer.on('file-opened', (event, selectedFile, selectedFileContent) => {
+  markdownView.value = selectedFileContent;
+  renderMarkdownToHtml(selectedFileContent);
 });

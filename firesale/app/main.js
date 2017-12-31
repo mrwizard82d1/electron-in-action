@@ -30,8 +30,11 @@ const getFileFromUser = () => {
   return files[0];
 };
 
-const readSelectedFileContent = mori.comp(readFileContent, getFileFromUser);
-const logSelectedFileContent = () => mori.pipeline(getFileFromUser(), readFileContent, console.log);
+let importFile = function () {
+  const selectedFile = getFileFromUser();
+  const selectedFileContent = readFileContent(selectedFile);
+  mainWindow.webContents.send('file-opened', selectedFile, selectedFileContent);
+};
 
 function whenAppReady() {
   // Hide browser window at first.
@@ -42,8 +45,7 @@ function whenAppReady() {
   // Create one-time event to show the window once the DOM is ready-to-show.
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
-  
-    logSelectedFileContent();
+    importFile();
   })
   
   // Allows `mainWindow` to be garbage collected.
@@ -53,5 +55,5 @@ function whenAppReady() {
 app.on('ready', whenAppReady);
 
 module.exports = {
-  readSelectedFileContent,
+  importFile,
 };
