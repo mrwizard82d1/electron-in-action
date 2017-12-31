@@ -30,6 +30,7 @@ const getFileFromUser = () => {
   return files[0];
 };
 
+const readSelectedFileContent = mori.comp(readFileContent, getFileFromUser);
 const logSelectedFileContent = () => mori.pipeline(getFileFromUser(), readFileContent, console.log);
 
 function whenAppReady() {
@@ -52,6 +53,5 @@ function whenAppReady() {
 app.on('ready', whenAppReady);
 
 module.exports = {
-  getFileFromUser,
-  readFileContent,
+  readSelectedFileContent,
 };

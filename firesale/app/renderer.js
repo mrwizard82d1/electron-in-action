@@ -1,7 +1,7 @@
 const { remote } = require('electron');
 const marked = require('marked');
 const mori = require('mori');
-const { getFileFromUser, readFileContent } = remote.require('./main.js');
+const { readSelectedFileContent } = remote.require('./main.js');
 
 const selectors = ['#markdown', '#html', '#new-file', '#open-file', '#save-markdown', '#revert',
                    '#save-file', '#show-file', '#open-in-default'];
@@ -16,7 +16,6 @@ const renderMarkdownToHtml = (markdown) => {
 markdownView.addEventListener('keyup', event => renderMarkdownToHtml(event.target.value));
 
 openFileButton.addEventListener('click', () => {
-  const selectedFile = getFileFromUser();
-  const selectedFileContent = readFileContent(selectedFile);
+  const selectedFileContent = readSelectedFileContent();
   console.log(selectedFileContent);
 });
