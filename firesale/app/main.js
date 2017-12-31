@@ -4,6 +4,8 @@ const { app, BrowserWindow } = require('electron');
 let mainWindow = null;
 
 function whenAppReady() {
+  debugger;
+  
   // Hide browser window at first.
   mainWindow = new BrowserWindow({ show: false });
   
