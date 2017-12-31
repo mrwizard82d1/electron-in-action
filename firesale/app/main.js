@@ -7,8 +7,18 @@ const readFileContent = pathname => {
 }
 
 const getFileFromUser = () => {
-  debugger;
-  const files = dialog.showOpenDialog({ properties: ['openFile'] });
+  const files = dialog.showOpenDialog({
+    properties: ['openFile'],
+    filters: [
+      {
+        name: 'Text files',
+        extensions: [ 'txt'],
+      },
+      {
+        name: 'Markdown Files',
+        extensions: ['md'],
+      }],
+  });
   
   if (!files) {
     return [];
@@ -32,7 +42,6 @@ function whenAppReady() {
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
   
-    debugger;
     logSelectedFileContent();
   })
   
