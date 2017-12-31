@@ -4,8 +4,6 @@ const { app, BrowserWindow } = require('electron');
 let mainWindow = null;
 
 function whenAppReady() {
-  debugger;
-  
   // Hide browser window at first.
   mainWindow = new BrowserWindow({ show: false });
   
@@ -15,9 +13,6 @@ function whenAppReady() {
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
   })
-  
-  // Open the developer tools programatically.
-  mainWindow.webContents.openDevTools();
   
   // Allows `mainWindow` to be garbage collected.
   mainWindow.on('closed', () => { mainWindow = null; });
