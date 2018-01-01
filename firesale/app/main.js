@@ -84,6 +84,14 @@ const whenAllClosed = () => {
 
 app.on('window-all-closed', whenAllClosed);
 
+const whenAppActivated = (event, hasVisibleWindows) => {
+  if (! hasVisibleWindows) {
+    createBrowserWindow();
+  }
+};
+
+app.on('activate', whenAppActivated);
+
 module.exports = {
   createBrowserWindow,
   importFileInto,
