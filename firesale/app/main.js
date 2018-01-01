@@ -71,6 +71,19 @@ const whenAppReady = () => {
 
 app.on('ready', whenAppReady);
 
+const isMacOsX = () => {
+  return process.platform === 'darwin';
+};
+
+const whenAllClosed = () => {
+  if (isMacOsX()) {
+    // Does *not* close application when all windows are closed. (Standard Mac OS X behavior.)
+    return false;
+  }
+};
+
+app.on('window-all-closed', whenAllClosed);
+
 module.exports = {
   createBrowserWindow,
   importFileInto,
