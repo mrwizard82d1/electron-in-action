@@ -36,8 +36,17 @@ const importFileInto = browserWindow => {
 };
 
 const createBrowserWindow = function () {
+  // Position of newly created window. Use `undefined` for both to use default position.
+  let x, y;
+  const currentWindow = BrowserWindow.getFocusedWindow();
+  if (currentWindow) {
+    const [currentWindowX, currentWindowY] = currentWindow.getPosition();
+    x = currentWindowX + 13;
+    y = currentWindowY + 13;
+  }
+  
   // Hide new browser window at first.
-  let result = new BrowserWindow({show: false});
+  let result = new BrowserWindow({x, y, show: false});
   
   result.loadURL(`file://${__dirname}/index.html`);
   
