@@ -2,15 +2,14 @@ const { app, BrowserWindow, dialog } = require('electron');
 const fs = require('fs');
 const mori = require('mori');
 
-// Define variable so it is not garbage collected after `app.on` returns.
-let mainWindow = null;
+const browserWindows = mori.set();
 
 const readFileContent = pathname => {
   return fs.readFileSync(pathname).toString();
-}
+};
 
-const getFileFromUser = () => {
-  const files = dialog.showOpenDialog(mainWindow, {
+const getFileFromUser = (targetWindow) => {
+  const files = dialog.showOpenDialog(targetWindow, {
     properties: ['openFile'],
     filters: [
       {
@@ -30,30 +29,41 @@ const getFileFromUser = () => {
   return files[0];
 };
 
-let importFile = function () {
-  const selectedFile = getFileFromUser();
+const importFileInto = browserWindow => {
+  const selectedFile = getFileFromUser(browserWindow);
   const selectedFileContent = readFileContent(selectedFile);
-  mainWindow.webContents.send('file-opened', selectedFile, selectedFileContent);
+  browserWindow.webContents.send('file-opened', selectedFile, selectedFileContent);
 };
 
-function whenAppReady() {
-  // Hide browser window at first.
-  mainWindow = new BrowserWindow({ show: false });
+const createBrowserWindow = function () {
+  // Hide new browser window at first.
+  let result = new BrowserWindow({show: false});
   
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  result.loadURL(`file://${__dirname}/index.html`);
   
   // Create one-time event to show the window once the DOM is ready-to-show.
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show();
-    importFile();
-  })
+  result.once('ready-to-show', () => {
+    result.show();
+    importFileInto(result);
+  });
   
-  // Allows `mainWindow` to be garbage collected.
-  mainWindow.on('closed', () => { mainWindow = null; });
-}
+  // Allows `result` to be garbage collected.
+  result.on('closed', () => {
+    mori.disj(browserWindows, result);
+    result = null;
+  });
+  
+  return result;
+};
+
+const whenAppReady = () => {
+  createBrowserWindow();
+};
 
 app.on('ready', whenAppReady);
 
 module.exports = {
-  importFile,
+  createBrowserWindow,
+  importFileInto,
 };
+
