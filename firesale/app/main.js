@@ -4,8 +4,10 @@ const mori = require('mori');
 
 const browserWindows = mori.set();
 
-const readFileContent = pathname => {
-  return fs.readFileSync(pathname).toString();
+const readFileContent = (pathname, targetWindow) => {
+  const selectedFileContent = fs.readFileSync(pathname).toString();
+  targetWindow.setRepresentedFilename(pathname);
+  return selectedFileContent;
 };
 
 const getFileFromUser = (targetWindow) => {
@@ -31,7 +33,7 @@ const getFileFromUser = (targetWindow) => {
 
 const importFileInto = browserWindow => {
   const selectedFile = getFileFromUser(browserWindow);
-  const selectedFileContent = readFileContent(selectedFile);
+  const selectedFileContent = readFileContent(selectedFile, browserWindow);
   browserWindow.webContents.send('file-opened', selectedFile, selectedFileContent);
 };
 
