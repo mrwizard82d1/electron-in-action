@@ -39,6 +39,9 @@ const updateUserInterface = isEdited => {
   
   currentWindow.setTitle(title);
   currentWindow.setDocumentEdited(isEdited);
+  
+  saveMarkdownButton.disabled = !isEdited;
+  revertButton.disabled = !isEdited;
 };
 
 ipcRenderer.on('file-opened', (event, selectedFile, selectedFileContent) => {
