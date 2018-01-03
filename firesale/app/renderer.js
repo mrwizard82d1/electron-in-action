@@ -1,6 +1,7 @@
 const { remote, ipcRenderer } = require('electron');
 const marked = require('marked');
 const mori = require('mori');
+const path = require('path');
 const { createBrowserWindow, importFileInto } = remote.require('./main.js');
 
 const currentWindow = remote.getCurrentWindow();
@@ -23,14 +24,20 @@ openFileButton.addEventListener('click', () => importFileInto(currentWindow));
 
 newFileButton.addEventListener('click', () => createBrowserWindow());
 
+const updateUserInterface = () => {
+  let title = 'Fire Sale!';
+  if (filePath) {
+    title = `${path.basename(filePath)} - ${title}`;
+  }
+  currentWindow.setTitle(title);
+};
+
 ipcRenderer.on('file-opened', (event, selectedFile, selectedFileContent) => {
-  console.log(`Before filePath === ${filePath}`);
   filePath = selectedFile;
-  console.log(`After filePath === ${filePath}`);
-  console.log(`Before originalContent === ${originalContent}`);
   originalContent = selectedFileContent;
-  console.log(`After originalContent === ${originalContent}`);
   
   markdownView.value = selectedFileContent;
   renderMarkdownToHtml(selectedFileContent);
+  
+  updateUserInterface();
 });
