@@ -96,6 +96,15 @@ const whenAppActivated = (event, hasVisibleWindows) => {
 
 app.on('activate', whenAppActivated);
 
+app.on('will-finish-launching', () => {
+  app.on('open-file', (event, pathname) => {
+    const newWindow = createBrowserWindow();
+    newWindow.once('ready-to-show', () => {
+      readFileContent(pathname, newWindow);
+    })
+  })
+});
+
 module.exports = {
   createBrowserWindow,
   importFileInto,
