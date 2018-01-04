@@ -6,7 +6,9 @@ const browserWindows = mori.set();
 
 const readFileContent = (pathname, targetWindow) => {
   const selectedFileContent = fs.readFileSync(pathname).toString();
+  app.addRecentDocument(pathname);
   targetWindow.setRepresentedFilename(pathname);
+  
   return selectedFileContent;
 };
 
